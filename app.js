@@ -6,9 +6,11 @@ const Performer = require('./models/performer');
 const options = { useNewUrlParser: true, useUnifiedTopology: true };
 require('dotenv').config();
 const app = express();
+const cors = require('cors');
 
 let port = process.env.PORT || 3001;
 
+app.use(cors());
 app.use(express.json());
 
 app.use(
@@ -84,7 +86,6 @@ app.use(
     graphiql: true,
   })
 );
-
 
 mongoose
   .connect(process.env.MONGOOSE_URI, options)

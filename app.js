@@ -37,8 +37,9 @@ app.use(
       bio: String!
     }
 
-    type RootQuery {
+    type Query {
       performers: [Performer!]!
+      performersCustom(gender:String, group:String, limit:Int):[Performer!]!
     }
 
     type RootMutation {
@@ -46,13 +47,28 @@ app.use(
     }
 
     schema {
-      query: RootQuery
+      query: Query
       mutation: RootMutation
     }
   `),
     rootValue: {
       performers: () => {
         return Performer.find()
+          .then(performers => {
+            return performers.map(performer => {
+              return { ...performer._doc };
+            });
+          })
+          .catch(error => {
+            throw error;
+          });
+      },
+      performersCustom: args => {
+        let newArgs = { ...args };
+        delete args.limit;
+        return Performer.find(args)
+          .skip(newArgs.limit)
+          .limit(newArgs.limit)
           .then(performers => {
             return performers.map(performer => {
               return { ...performer._doc };

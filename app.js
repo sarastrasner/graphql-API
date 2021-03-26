@@ -39,7 +39,7 @@ app.use(
 
     type Query {
       performers: [Performer!]!
-      performersCustom(gender:String, group:String, limit:Int):[Performer!]!
+      performersCustom(gender:[String], group:String, limit:Int):[Performer!]!
     }
 
     type RootMutation {
@@ -55,6 +55,7 @@ app.use(
       performers: () => {
         return Performer.find()
           .then(performers => {
+            console.log(performers);
             return performers.map(performer => {
               return { ...performer._doc };
             });
@@ -64,10 +65,10 @@ app.use(
           });
       },
       performersCustom: args => {
+        console.log(args)
         let newArgs = { ...args };
         delete args.limit;
         return Performer.find(args)
-          .skip(newArgs.limit)
           .limit(newArgs.limit)
           .then(performers => {
             return performers.map(performer => {

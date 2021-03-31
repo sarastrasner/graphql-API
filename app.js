@@ -7,7 +7,7 @@ const options = { useNewUrlParser: true, useUnifiedTopology: true };
 require('dotenv').config();
 const app = express();
 const cors = require('cors');
-
+const _ = require('lodash');
 let port = process.env.PORT || 3001;
 
 app.use(cors());
@@ -68,9 +68,9 @@ app.use(
         let newArgs = { ...args };
         delete args.limit;
         return Performer.find(args)
-          .limit(newArgs.limit)
           .then(performers => {
-            return performers.map(performer => {
+            let results = _.sampleSize(performers, newArgs.limit);
+            return results.map(performer => {
               return { ...performer._doc };
             });
           })

@@ -25,6 +25,10 @@ const perfomerSchema = new Schema({
   bio: {
     type: String,
     required: true
+  },
+  link: {
+    type: String,
+    required: true
   }
 });
 

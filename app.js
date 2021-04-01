@@ -26,6 +26,7 @@ app.use(
       photo: String!
       gender: String!
       bio: String!
+      link: String!
     }
 
     input PerformerInput {
@@ -35,6 +36,7 @@ app.use(
       photo: String!
       gender: String!
       bio: String!
+      link: String!
     }
 
     type Query {
@@ -86,6 +88,7 @@ app.use(
           photo: args.performerInput.photo,
           gender: args.performerInput.gender,
           bio: args.performerInput.bio,
+          link: args.performerInput.link,
         });
         return performer
           .save()
